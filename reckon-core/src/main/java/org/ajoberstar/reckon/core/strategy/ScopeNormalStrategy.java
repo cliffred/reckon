@@ -51,7 +51,7 @@ public class ScopeNormalStrategy implements NormalStrategy {
     Version targetNormal = Versions.incrementNormal(inventory.getBaseNormal(), scope);
 
     // if a version's already being developed on a parallel branch we'll skip it
-    if (inventory.getParallelNormals().contains(targetNormal)) {
+    while (inventory.getParallelNormals().contains(targetNormal)) {
       targetNormal = Versions.incrementNormal(targetNormal, scope);
     }
 

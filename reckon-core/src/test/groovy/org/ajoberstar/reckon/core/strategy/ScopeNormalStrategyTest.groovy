@@ -83,7 +83,7 @@ class ScopeNormalStrategyTest extends Specification {
     new ScopeNormalStrategy({ Optional.of('major') }).reckonNormal(inventory) == Version.valueOf('2.0.0')
   }
 
-  def 'if incremented version is in the parallel normals, increment again'() {
+  def 'if incremented version is in the parallel normals, increment until it is not'() {
     given:
     def inventory = new VcsInventory(
         'abcdef',
@@ -91,11 +91,11 @@ class ScopeNormalStrategyTest extends Specification {
         Version.valueOf('1.2.3-milestone.1'),
         Version.valueOf('1.2.2'),
         1,
-        [Version.valueOf('2.0.0')] as Set,
+        [Version.valueOf('2.0.0'), Version.valueOf('3.0.0')] as Set,
         [] as Set
         )
     expect:
-    new ScopeNormalStrategy({ Optional.of('major') }).reckonNormal(inventory) == Version.valueOf('3.0.0')
+    new ScopeNormalStrategy({ Optional.of('major') }).reckonNormal(inventory) == Version.valueOf('4.0.0')
   }
 
   def 'if target normal is in the claimed versions, throw'() {
